@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SimpleInjector.Integration.ServiceCollection</name>
+    </assembly>
+    <members>
+        <member name="T:SimpleInjector.Integration.ServiceCollection.IServiceProviderAccessor">
+            <summary>
+            Allows access to the request's <see cref="T:System.IServiceProvider"/> instance.
+            This interface is used by Simple Injector and allow it to resolve transient and scoped services from the
+            framework's <see cref="T:System.IServiceProvider"/> through cross wiring.
+            </summary>
+        </member>
+        <member name="P:SimpleInjector.Integration.ServiceCollection.IServiceProviderAccessor.Current">
+            <summary>
+            Gets the current <see cref="T:System.IServiceProvider"/> for the current scope or request.
+            This operation will never return null.
+            </summary>
+            <value>An <see cref="T:System.IServiceProvider"/> instance.</value>
+        </member>
+        <member name="T:SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions">
+            <summary>
+            Provides programmatic configuration for the Simple Injector on top of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </summary>
+        </member>
+        <member name="P:SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions.Services">
+            <summary>
+            Gets the <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> that contains the collection of framework components.
+            </summary>
+            <value>The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> instance.</value>
+        </member>
+        <member name="P:SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions.Container">
+            <summary>
+            Gets the <see cref="P:SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions.Container"/> instance used by the application.
+            </summary>
+            <value>The <see cref="P:SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions.Container"/> instance.</value>
+        </member>
+        <member name="P:SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions.ServiceProviderAccessor">
+            <summary>
+            Gets or sets an <see cref="T:SimpleInjector.Integration.ServiceCollection.IServiceProviderAccessor"/> instance that will be used by Simple
+            Injector to resolve cross-wired framework components.
+            </summary>
+            <value>The <see cref="T:SimpleInjector.Integration.ServiceCollection.IServiceProviderAccessor"/> instance.</value>
+            <exception cref="T:System.ArgumentNullException">Thrown when a null value is provided.</exception>
+        </member>
+        <member name="P:SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions.AutoCrossWireFrameworkComponents">
+            <summary>
+            Gets or sets a value indicating whether or not Simple Injector should try to load framework
+            components from the framework's configuration system or not. The default is <c>true</c>.
+            </summary>
+            <value>A boolean value.</value>
+        </member>
+        <member name="P:SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions.DisposeContainerWithServiceProvider">
+            <summary>
+            Gets or sets the value indicating whether the <see cref="P:SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions.Container"/> instance ued by the 
+            application should be disposed when the framework's <see cref="T:System.IServiceProvider"/> is disposed.
+            The <see cref="T:System.IServiceProvider"/> is typically disposed of on application shutdown, which is also
+            the time to dispose the Container. The default value is <b>true</b>.
+            </summary>
+            <value>A boolean value.</value>
+        </member>
+        <member name="P:SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions.ApplicationServices">
+            <summary>
+            Gets the <see cref="T:System.IServiceProvider"/> instance that will be used by Simple Injector to resolve
+            cross-wired framework components. It's value will be set when
+            <see cref="M:SimpleInjector.SimpleInjectorServiceCollectionExtensions.UseSimpleInjector(System.IServiceProvider,SimpleInjector.Container)">UseSimpleInjector</see>
+            is called, or when ASP.NET Core resolves its hosted services (whatever comes first).
+            </summary>
+            <value>The <see cref="T:System.IServiceProvider"/> instance.</value>
+        </member>
+        <member name="T:SimpleInjector.SimpleInjectorServiceCollectionExtensions">
+            <summary>
+            Extensions to configure Simple Injector on top of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </summary>
+        </member>
+        <member name="M:SimpleInjector.SimpleInjectorServiceCollectionExtensions.AddSimpleInjector(Microsoft.Extensions.DependencyInjection.IServiceCollection,SimpleInjector.Container,System.Action{SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions})">
+            <summary>
+            Sets up the basic configuration that allows Simple Injector to be used in frameworks that require
+            the use of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> for registration of framework components.
+            In case of the absense of a
+            <see cref="P:SimpleInjector.ContainerOptions.DefaultScopedLifestyle">DefaultScopedLifestyle</see>, this method
+            will configure <see cref="T:SimpleInjector.Lifestyles.AsyncScopedLifestyle"/> as the default scoped lifestyle.
+            In case a <paramref name="setupAction"/> is supplied, that delegate will be called that allow
+            further configuring the container.
+            </summary>
+            <param name="services">The framework's <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> instance.</param>
+            <param name="container">The application's <see cref="T:SimpleInjector.Container"/> instance.</param>
+            <param name="setupAction">An optional setup action.</param>
+            <returns>The supplied <paramref name="services"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="services"/> or
+            <paramref name="container"/> are null references.</exception>
+        </member>
+        <member name="M:SimpleInjector.SimpleInjectorServiceCollectionExtensions.UseSimpleInjector(System.IServiceProvider,SimpleInjector.Container)">
+            <summary>
+            Finalizes the configuration of Simple Injector on top of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>. Will
+            ensure framework components can be injected into Simple Injector-resolved components, unless
+            <see cref="P:SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions.AutoCrossWireFrameworkComponents"/> is set to <c>false</c>.
+            </summary>
+            <param name="provider">The application's <see cref="T:System.IServiceProvider"/>.</param>
+            <param name="container">The application's <see cref="T:SimpleInjector.Container"/> instance.</param>
+            <returns>The supplied <paramref name="provider"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="provider"/> or
+            <paramref name="container"/> are null references.</exception>
+        </member>
+        <member name="M:SimpleInjector.SimpleInjectorServiceCollectionExtensions.UseSimpleInjector(System.IServiceProvider,SimpleInjector.Container,System.Action{SimpleInjector.SimpleInjectorUseOptions})">
+            <summary>
+            Finalizes the configuration of Simple Injector on top of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>. Will
+            ensure framework components can be injected into Simple Injector-resolved components, unless
+            <see cref="P:SimpleInjector.SimpleInjectorUseOptions.AutoCrossWireFrameworkComponents"/> is set to <c>false</c>
+            using the <paramref name="setupAction"/>.
+            </summary>
+            <param name="provider">The application's <see cref="T:System.IServiceProvider"/>.</param>
+            <param name="container">The application's <see cref="T:SimpleInjector.Container"/> instance.</param>
+            <param name="setupAction">An optional setup action.</param>
+            <returns>The supplied <paramref name="provider"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when <paramref name="provider"/> or
+            <paramref name="container"/> are null references.</exception>
+        </member>
+        <member name="M:SimpleInjector.SimpleInjectorServiceCollectionExtensions.CrossWire``1(SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions)">
+            <summary>
+            Cross wires an ASP.NET Core or third-party service to the container, to allow the service to be
+            injected into components that are built by Simple Injector.
+            </summary>
+            <typeparam name="TService">The type of service object to cross-wire.</typeparam>
+            <param name="options">The options.</param>
+            <returns>The supplied <paramref name="options"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when the parameter is a null reference.
+            </exception>
+        </member>
+        <member name="M:SimpleInjector.SimpleInjectorServiceCollectionExtensions.CrossWire(SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions,System.Type)">
+            <summary>
+            Cross wires an ASP.NET Core or third-party service to the container, to allow the service to be
+            injected into components that are built by Simple Injector.
+            </summary>
+            <param name="options">The options.</param>
+            <param name="serviceType">The type of service object to ross-wire.</param>
+            <returns>The supplied <paramref name="options"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when one of the parameters is a null reference.
+            </exception>
+        </member>
+        <member name="M:SimpleInjector.SimpleInjectorServiceCollectionExtensions.AddLogging(SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions)">
+            <summary>
+            Allows components that are built by Simple Injector to depend on the (non-generic)
+            <see cref="T:Microsoft.Extensions.Logging.ILogger">Microsoft.Extensions.Logging.ILogger</see> abstraction. Components are
+            injected with an contextual implementation. Using this method, application components can simply
+            depend on <b>ILogger</b> instead of its generic counter part, <b>ILogger&lt;T&gt;</b>, which
+            simplifies development.
+            </summary>
+            <param name="options">The options.</param>
+            <returns>The supplied <paramref name="options"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="options"/> is a null reference.</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown when no <see cref="T:Microsoft.Extensions.Logging.ILoggerFactory"/> entry
+            can be found in the framework's list of services defined by <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </exception>
+        </member>
+        <member name="M:SimpleInjector.SimpleInjectorServiceCollectionExtensions.AddLocalization(SimpleInjector.Integration.ServiceCollection.SimpleInjectorAddOptions)">
+            <summary>
+            Allows components that are built by Simple Injector to depend on the (non-generic)
+            <see cref="T:Microsoft.Extensions.Localization.IStringLocalizer">Microsoft.Extensions.Localization.IStringLocalizer</see> abstraction.
+            Components are injected with an contextual implementation. Using this method, application 
+            components can simply depend on <b>IStringLocalizer</b> instead of its generic counter part,
+            <b>IStringLocalizer&lt;T&gt;</b>, which simplifies development.
+            </summary>
+            <param name="options">The options.</param>
+            <returns>The supplied <paramref name="options"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="options"/> is a null reference.</exception>
+            <exception cref="T:System.InvalidOperationException">Thrown when no <see cref="T:Microsoft.Extensions.Localization.IStringLocalizerFactory"/>
+            entry can be found in the framework's list of services defined by <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </exception>
+            <exception cref="T:SimpleInjector.ActivationException">Thrown when an <see cref="T:Microsoft.Extensions.Localization.IStringLocalizer"/> is directly 
+            resolved from the container. Instead use <see cref="T:Microsoft.Extensions.Localization.IStringLocalizer"/> within a constructor 
+            dependency.</exception>
+        </member>
+        <member name="T:SimpleInjector.SimpleInjectorUseOptions">
+            <summary>
+            Provides programmatic configuration for the Simple Injector on top of <see cref="T:System.IServiceProvider"/>.
+            </summary>
+        </member>
+        <member name="P:SimpleInjector.SimpleInjectorUseOptions.AutoCrossWireFrameworkComponents">
+            <summary>
+            Gets or sets a value indicating whether or not Simple Injector should try to load framework
+            components from the framework's configuration system or not. The default is <c>true</c>.
+            </summary>
+            <value>A boolean value.</value>
+        </member>
+        <member name="P:SimpleInjector.SimpleInjectorUseOptions.ApplicationServices">
+            <summary>
+            Gets the <see cref="T:System.IServiceProvider"/> that provides access to the framework's singleton
+            services.
+            </summary>
+            <value>The <see cref="T:System.IServiceProvider"/> instance.</value>
+        </member>
+        <member name="P:SimpleInjector.SimpleInjectorUseOptions.Container">
+            <summary>
+            Gets the application's Simple Injector <see cref="P:SimpleInjector.SimpleInjectorUseOptions.Container"/>.
+            </summary>
+            <value>The <see cref="P:SimpleInjector.SimpleInjectorUseOptions.Container"/> instance.</value>
+        </member>
+        <member name="P:SimpleInjector.SimpleInjectorUseOptions.Services">
+            <summary>
+            Gets the <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> that contains the collection of framework components.
+            </summary>
+            <value>The <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> instance.</value>
+        </member>
+    </members>
+</doc>
